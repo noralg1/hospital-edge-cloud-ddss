@@ -1,0 +1,3 @@
+# Always LF line endings (Mosquitto config and Python must not get CRLF on Windows)
+* text=auto eol=lf
+*.png binary

@@ -1,16 +1,9 @@
-ARG NODERED_BASE_IMAGE=nodered/node-red:latest
-FROM ${NODERED_BASE_IMAGE}
+ARG NODERED_VERSION=4.1.16-22
+FROM nodered/node-red:${NODERED_VERSION}
 
-# Necesitamos root para instalar paquetes npm en el árbol de la imagen
-USER root
-WORKDIR /usr/src/node-red
+# FlowFuse Dashboard 2.0 (the dashboard package used in the course labs)
+ARG DASHBOARD_VERSION=1.34.1
+RUN npm install --no-audit --no-fund @flowfuse/node-red-dashboard@${DASHBOARD_VERSION}
 
-# node-red-dashboard: mencionado explícitamente en Lesson 1
-#   (https://flows.nodered.org/node/@flowfuse/node-red-dashboard)
-# node-red-contrib-kafka-manager: nodos de Kafka para los Labs 3/4 de GA-506
-RUN npm install --no-update-notifier --no-fund \
-      @flowfuse/node-red-dashboard \
-      node-red-contrib-kafka-manager \
-  && npm cache clean --force
-
-USER node-red
+# Kafka nodes used in the course labs (kafka-suite-producer / -consumer), for the MQTT -> Kafka bridge
+RUN npm install --no-audit --no-fund node-red-contrib-kafka-suite@0.0.6

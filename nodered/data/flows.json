@@ -1,0 +1,943 @@
+[
+    {
+        "id": "0000000000000001",
+        "type": "tab",
+        "label": "1 · Monitors (simulator)",
+        "disabled": false,
+        "info": "Simulated monitors (not real patients)."
+    },
+    {
+        "id": "0000000000000002",
+        "type": "tab",
+        "label": "2 · Edge alerts",
+        "disabled": false,
+        "info": "Alerts at the edge, no Kafka needed."
+    },
+    {
+        "id": "0000000000000003",
+        "type": "tab",
+        "label": "3 · On-call dashboard",
+        "disabled": false,
+        "info": "http://localhost:1880/dashboard"
+    },
+    {
+        "id": "0000000000000004",
+        "type": "mqtt-broker",
+        "name": "Mosquitto (Edge broker)",
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "nodered-edge",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "30",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "status/monitors",
+        "birthQos": "1",
+        "birthRetain": "true",
+        "birthPayload": "online",
+        "birthMsg": {},
+        "closeTopic": "status/monitors",
+        "closeQos": "1",
+        "closeRetain": "true",
+        "closePayload": "offline",
+        "closeMsg": {},
+        "willTopic": "status/monitors",
+        "willQos": "1",
+        "willRetain": "true",
+        "willPayload": "offline",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "000000000000000f",
+        "type": "ui-base",
+        "name": "Hospital dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "0000000000000010",
+        "type": "ui-theme",
+        "name": "Default theme",
+        "colors": {
+            "surface": "#1d4e89",
+            "primary": "#0d74ce",
+            "bgPage": "#f3f5f8",
+            "groupBg": "#ffffff",
+            "groupOutline": "#d9d9e0"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "6px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "0000000000000011",
+        "type": "ui-page",
+        "name": "Ward 2 · on-call",
+        "ui": "000000000000000f",
+        "path": "/ward2",
+        "icon": "hospital-building",
+        "layout": "grid",
+        "theme": "0000000000000010",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "0000000000000012",
+        "type": "ui-group",
+        "name": "Heart rate",
+        "page": "0000000000000011",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "0000000000000013",
+        "type": "ui-group",
+        "name": "Oxygen saturation",
+        "page": "0000000000000011",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "0000000000000014",
+        "type": "ui-group",
+        "name": "Alerts (latest first)",
+        "page": "0000000000000011",
+        "width": "8",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "0000000000000015",
+        "type": "ui-group",
+        "name": "Monitors & simulation",
+        "page": "0000000000000011",
+        "width": "4",
+        "height": "1",
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "0000000000000005",
+        "type": "comment",
+        "z": "0000000000000001",
+        "name": "Monitors in mosquitto",
+        "info": "topic: hospital/ward2/room204/pulse",
+        "x": 170,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "0000000000000006",
+        "type": "mqtt out",
+        "z": "0000000000000001",
+        "name": "publish reading (QoS 1)",
+        "topic": "",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0000000000000004",
+        "x": 640,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "0000000000000007",
+        "type": "debug",
+        "z": "0000000000000001",
+        "name": "readings",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "0000000000000008",
+        "type": "function",
+        "z": "0000000000000001",
+        "name": "generate readings",
+        "func": "// 3 patients, pulse + spo2 every 10 s\n\nconst patients = [\n    { patient: \"P001\", ward: \"ward2\", room: \"204\" },\n    { patient: \"P002\", ward: \"ward2\", room: \"205\" },\n    { patient: \"P003\", ward: \"ward2\", room: \"206\" }\n];\n\nconst clamp = (v, min, max) => Math.min(max, Math.max(min, v));\nconst drift = (v, step) => v + (Math.random() * 2 - 1) * step;\n\n// crisis button from the dashboard\nconst crisis = global.get(\"crisis\");\nconst active = crisis && Date.now() < crisis.until ? crisis : null;\n\nconst timestamp = new Date().toISOString();   // time of the measurement\nconst last = context.get(\"last\") || {};\n\nfor (const p of patients) {\n    const prev = last[p.patient] || { pulse: 75, spo2: 97 };\n    let pulse = clamp(drift(prev.pulse, 3), 60, 100);\n    let spo2 = clamp(drift(prev.spo2, 0.7), 94, 99.5);\n    last[p.patient] = { pulse, spo2 };\n\n    if (active && active.patient === p.patient) {\n        if (active.sign === \"spo2\") spo2 = 84 + Math.random() * 4;     // < 90 %\n        if (active.sign === \"pulse\") pulse = 145 + Math.random() * 15; // > 140 bpm\n    }\n\n    const readings = [[\"pulse\", Math.round(pulse), \"bpm\"], [\"spo2\", Math.round(spo2), \"%\"]];\n    for (const [sign, value, unit] of readings) {\n        node.send({\n            topic: `hospital/${p.ward}/room${p.room}/${sign}`,\n            payload: { ward: p.ward, room: p.room, patient: p.patient, sign, value, unit, timestamp }\n        });\n    }\n}\ncontext.set(\"last\", last);\n\nnode.status(active\n    ? { fill: \"red\", shape: \"dot\", text: `crisis ${active.patient} ${active.sign}` }\n    : { fill: \"green\", shape: \"dot\", text: `6 readings at ${timestamp.substring(11, 19)} UTC` });\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 140,
+        "wires": [
+            [
+                "0000000000000006",
+                "0000000000000007"
+            ]
+        ]
+    },
+    {
+        "id": "0000000000000009",
+        "type": "inject",
+        "z": "0000000000000001",
+        "name": "every 10 s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 140,
+        "wires": [
+            [
+                "0000000000000008"
+            ]
+        ]
+    },
+    {
+        "id": "000000000000000a",
+        "type": "comment",
+        "z": "0000000000000002",
+        "name": "Alerts: pulse <40 or >140; spO2 <90",
+        "info": "",
+        "x": 180,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "000000000000000b",
+        "type": "mqtt out",
+        "z": "0000000000000002",
+        "name": "publish alert (QoS 1)",
+        "topic": "",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0000000000000004",
+        "x": 640,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "000000000000000c",
+        "type": "debug",
+        "z": "0000000000000002",
+        "name": "alerts",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "000000000000000d",
+        "type": "function",
+        "z": "0000000000000002",
+        "name": "check thresholds",
+        "func": "// thresholds (illustrative)\nconst LIMITS = {\n    pulse: { min: 40, max: 140 },   // bpm\n    spo2:  { min: 90 }              // %\n};\n\nconst r = msg.payload;\nconst limit = LIMITS[r.sign];\nif (!limit) return null;\n\nconst key = `${r.patient}/${r.sign}`;\nconst state = context.get(key) || { status: \"normal\", lastTs: \"\" };\n\n// QoS 1 can repeat a message -> ignore old/duplicated readings\nif (r.timestamp <= state.lastTs) {\n    node.warn(`duplicate/old reading ignored: ${key} ${r.timestamp}`);\n    return null;\n}\nstate.lastTs = r.timestamp;\n\nlet reason = null;\nif (limit.min !== undefined && r.value < limit.min) reason = `${r.sign} ${r.value} ${r.unit} < ${limit.min}`;\nif (limit.max !== undefined && r.value > limit.max) reason = `${r.sign} ${r.value} ${r.unit} > ${limit.max}`;\nconst status = reason ? \"alarm\" : \"normal\";\n\n// only send something when the state changes\nif (status === state.status) {\n    context.set(key, state);\n    return null;\n}\nstate.status = status;\ncontext.set(key, state);\n\nmsg.topic = `alerts/${r.ward}/room${r.room}`;\nmsg.payload = {\n    id: `${r.patient}|${r.sign}|${r.timestamp}`,\n    level: reason ? \"ALERT\" : \"RESOLVED\",\n    patient: r.patient, ward: r.ward, room: r.room,\n    sign: r.sign, value: r.value, unit: r.unit,\n    reason: reason || `${r.sign} back to normal (${r.value} ${r.unit})`,\n    timestamp: r.timestamp\n};\nnode.status({ fill: reason ? \"red\" : \"green\", shape: \"dot\", text: `${msg.payload.level} ${key}` });\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 140,
+        "wires": [
+            [
+                "000000000000000b",
+                "000000000000000c"
+            ]
+        ]
+    },
+    {
+        "id": "000000000000000e",
+        "type": "mqtt in",
+        "z": "0000000000000002",
+        "name": "all readings",
+        "topic": "hospital/+/+/+",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "0000000000000004",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 140,
+        "wires": [
+            [
+                "000000000000000d"
+            ]
+        ]
+    },
+    {
+        "id": "0000000000000016",
+        "type": "comment",
+        "z": "0000000000000003",
+        "name": "Charts",
+        "info": "",
+        "x": 170,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "0000000000000017",
+        "type": "ui-chart",
+        "z": "0000000000000003",
+        "group": "0000000000000012",
+        "name": "Pulse (bpm)",
+        "label": "Pulse (bpm)",
+        "order": 1,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "30",
+        "ymax": "180",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 3,
+        "showLegend": true,
+        "removeOlder": "10",
+        "removeOlderUnit": "60",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095FF",
+            "#FF7F0E",
+            "#2CA02C",
+            "#A347E1",
+            "#D62728",
+            "#FF9896",
+            "#9467BD",
+            "#C5B0D5",
+            "#FF0000"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "6",
+        "height": "6",
+        "className": "",
+        "interpolation": "linear",
+        "x": 720,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0000000000000018",
+        "type": "ui-chart",
+        "z": "0000000000000003",
+        "group": "0000000000000013",
+        "name": "SpO2 (%)",
+        "label": "SpO2 (%)",
+        "order": 1,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "80",
+        "ymax": "100",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 3,
+        "showLegend": true,
+        "removeOlder": "10",
+        "removeOlderUnit": "60",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095FF",
+            "#FF7F0E",
+            "#2CA02C",
+            "#A347E1",
+            "#D62728",
+            "#FF9896",
+            "#9467BD",
+            "#C5B0D5",
+            "#FF0000"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "6",
+        "height": "6",
+        "className": "",
+        "interpolation": "linear",
+        "x": 720,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0000000000000019",
+        "type": "function",
+        "z": "0000000000000003",
+        "name": "to chart point",
+        "func": "msg.topic = msg.payload.patient;\nmsg.timestamp = Date.parse(msg.payload.timestamp);\nmsg.payload = msg.payload.value;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 100,
+        "wires": [
+            [
+                "0000000000000017"
+            ]
+        ]
+    },
+    {
+        "id": "000000000000001a",
+        "type": "function",
+        "z": "0000000000000003",
+        "name": "to chart point",
+        "func": "msg.topic = msg.payload.patient;\nmsg.timestamp = Date.parse(msg.payload.timestamp);\nmsg.payload = msg.payload.value;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 160,
+        "wires": [
+            [
+                "0000000000000018"
+            ]
+        ]
+    },
+    {
+        "id": "000000000000001b",
+        "type": "switch",
+        "z": "0000000000000003",
+        "name": "by vital sign",
+        "property": "payload.sign",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "pulse",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "spo2",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 330,
+        "y": 130,
+        "wires": [
+            [
+                "0000000000000019"
+            ],
+            [
+                "000000000000001a"
+            ]
+        ]
+    },
+    {
+        "id": "000000000000001c",
+        "type": "mqtt in",
+        "z": "0000000000000003",
+        "name": "all readings",
+        "topic": "hospital/+/+/+",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "0000000000000004",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 130,
+        "wires": [
+            [
+                "000000000000001b"
+            ]
+        ]
+    },
+    {
+        "id": "000000000000001d",
+        "type": "comment",
+        "z": "0000000000000003",
+        "name": "Alerts",
+        "info": "",
+        "x": 170,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "000000000000001e",
+        "type": "ui-table",
+        "z": "0000000000000003",
+        "group": "0000000000000014",
+        "name": "alerts table",
+        "label": "",
+        "order": 1,
+        "width": "8",
+        "height": "6",
+        "maxrows": "15",
+        "passthru": false,
+        "autocols": false,
+        "showSearch": false,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [
+            {
+                "title": "Time",
+                "key": "time",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Level",
+                "key": "level",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Patient",
+                "key": "patient",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Room",
+                "key": "room",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Reason",
+                "key": "reason",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            }
+        ],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 720,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "000000000000001f",
+        "type": "ui-notification",
+        "z": "0000000000000003",
+        "ui": "000000000000000f",
+        "position": "top right",
+        "colorDefault": false,
+        "color": "#c62828",
+        "displayTime": "8",
+        "showCountdown": true,
+        "outputs": 0,
+        "allowDismiss": true,
+        "dismissText": "Close",
+        "allowConfirm": false,
+        "confirmText": "Confirm",
+        "raw": false,
+        "className": "",
+        "name": "alert pop-up",
+        "x": 720,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "0000000000000020",
+        "type": "function",
+        "z": "0000000000000003",
+        "name": "keep last 15",
+        "func": "// last 15 alerts, newest first\nconst list = context.get(\"alerts\") || [];\nconst a = msg.payload;\nif (list.some(x => x.id === a.id)) return null;   // duplicate\nlist.unshift({\n    id: a.id,\n    time: new Date(a.timestamp).toLocaleTimeString(\"es-ES\", { timeZone: \"Europe/Madrid\" }),\n    level: a.level, patient: a.patient, room: a.room, reason: a.reason\n});\ncontext.set(\"alerts\", list.slice(0, 15));\nmsg.payload = list.slice(0, 15).map(({ id, ...row }) => row);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 280,
+        "wires": [
+            [
+                "000000000000001e"
+            ]
+        ]
+    },
+    {
+        "id": "0000000000000021",
+        "type": "function",
+        "z": "0000000000000003",
+        "name": "new alerts only",
+        "func": "// only new alerts\nif (msg.payload.level !== \"ALERT\") return null;\nconst a = msg.payload;\nmsg.payload = `ALERT ${a.patient} (room ${a.room}): ${a.reason.replace(\"<\", \"below\").replace(\">\", \"above\")}`;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 340,
+        "wires": [
+            [
+                "000000000000001f"
+            ]
+        ]
+    },
+    {
+        "id": "0000000000000022",
+        "type": "mqtt in",
+        "z": "0000000000000003",
+        "name": "alerts",
+        "topic": "alerts/#",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "0000000000000004",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 310,
+        "wires": [
+            [
+                "0000000000000020",
+                "0000000000000021"
+            ]
+        ]
+    },
+    {
+        "id": "0000000000000023",
+        "type": "comment",
+        "z": "0000000000000003",
+        "name": "Status (LWT) + Crisis buttons",
+        "info": "",
+        "x": 170,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "0000000000000024",
+        "type": "ui-text",
+        "z": "0000000000000003",
+        "group": "0000000000000015",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "name": "monitor status",
+        "label": "Monitors",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "Helvetica",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 500,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "0000000000000025",
+        "type": "mqtt in",
+        "z": "0000000000000003",
+        "name": "monitor status",
+        "topic": "status/monitors",
+        "qos": "1",
+        "datatype": "utf8",
+        "broker": "0000000000000004",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 480,
+        "wires": [
+            [
+                "0000000000000024"
+            ]
+        ]
+    },
+    {
+        "id": "0000000000000026",
+        "type": "function",
+        "z": "0000000000000003",
+        "name": "start/stop crisis",
+        "func": "// 60 s crisis, read by the simulator\nif (msg.payload === \"stop\") {\n    global.set(\"crisis\", null);\n    node.status({});\n    return null;\n}\nconst [patient, sign] = msg.payload.split(\":\");\nglobal.set(\"crisis\", { patient, sign, until: Date.now() + 60000 });\nnode.status({ fill: \"red\", shape: \"dot\", text: `${patient} ${sign} for 60 s` });\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0000000000000027",
+        "type": "ui-button",
+        "z": "0000000000000003",
+        "group": "0000000000000015",
+        "name": "Crisis P002: low SpO2",
+        "label": "Crisis P002: low SpO2",
+        "order": 2,
+        "width": "4",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "P002:spo2",
+        "payloadType": "str",
+        "topic": "crisis",
+        "topicType": "str",
+        "buttonColor": "#c62828",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 200,
+        "y": 540,
+        "wires": [
+            [
+                "0000000000000026"
+            ]
+        ]
+    },
+    {
+        "id": "0000000000000028",
+        "type": "ui-button",
+        "z": "0000000000000003",
+        "group": "0000000000000015",
+        "name": "Crisis P003: high pulse",
+        "label": "Crisis P003: high pulse",
+        "order": 3,
+        "width": "4",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "P003:pulse",
+        "payloadType": "str",
+        "topic": "crisis",
+        "topicType": "str",
+        "buttonColor": "#ef6c00",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 200,
+        "y": 580,
+        "wires": [
+            [
+                "0000000000000026"
+            ]
+        ]
+    },
+    {
+        "id": "0000000000000029",
+        "type": "ui-button",
+        "z": "0000000000000003",
+        "group": "0000000000000015",
+        "name": "Stop crisis",
+        "label": "Stop crisis",
+        "order": 4,
+        "width": "4",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "stop",
+        "payloadType": "str",
+        "topic": "crisis",
+        "topicType": "str",
+        "buttonColor": "#2e7d32",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 200,
+        "y": 620,
+        "wires": [
+            [
+                "0000000000000026"
+            ]
+        ]
+    }
+]

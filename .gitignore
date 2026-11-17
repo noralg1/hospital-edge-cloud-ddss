@@ -1,5 +1,8 @@
 .env
-*.db
-*.sqlite
 __pycache__/
+*.pyc
 .venv/
+# Node-RED runtime files: only the flows and settings are versioned
+nodered/data/*
+!nodered/data/flows.json
+!nodered/data/settings.js
