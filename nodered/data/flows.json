@@ -2,21 +2,21 @@
     {
         "id": "0000000000000001",
         "type": "tab",
-        "label": "1 · Monitors (simulator)",
+        "label": "Monitors (simulator)",
         "disabled": false,
         "info": "Simulated monitors (not real patients)."
     },
     {
         "id": "0000000000000002",
         "type": "tab",
-        "label": "2 · Edge alerts",
+        "label": "Edge alerts",
         "disabled": false,
         "info": "Alerts at the edge, no Kafka needed."
     },
     {
         "id": "0000000000000003",
         "type": "tab",
-        "label": "3 · On-call dashboard",
+        "label": "On-call dashboard",
         "disabled": false,
         "info": "http://localhost:1880/dashboard"
     },
@@ -93,7 +93,7 @@
     {
         "id": "0000000000000011",
         "type": "ui-page",
-        "name": "Ward 2 · on-call",
+        "name": "Ward 2 on-call",
         "ui": "000000000000000f",
         "path": "/ward2",
         "icon": "hospital-building",
