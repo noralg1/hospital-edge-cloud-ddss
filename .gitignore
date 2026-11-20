@@ -7,3 +7,7 @@ nodered/data/*
 !nodered/data/flows.json
 !nodered/data/settings.js
 .vscode/
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
