@@ -14,7 +14,10 @@ KAFKA_TOPIC = "hospital-readings"
 
 # Create Kafka producer
 kafka_producer = Producer({
-    "bootstrap.servers": KAFKA_BROKER
+    "bootstrap.servers": KAFKA_BROKER,
+    "acks": "all",
+    "enable.idempotence": True,
+    "partitioner": "murmur2_random"
 })
 
 
@@ -75,7 +78,8 @@ def on_connect(client, userdata, flags, reason_code, properties):
 # Create MQTT client
 client = mqtt.Client(
     mqtt.CallbackAPIVersion.VERSION2,
-    client_id="cloud-kafka-bridge"
+    client_id="cloud-kafka-bridge",
+    clean_session=False
 )
 
 # Register callback functions
