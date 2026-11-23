@@ -11,3 +11,5 @@ nodered/data/*
 *.db
 *.sqlite
 *.sqlite3
+# Local test scripts
+consumers/test_producer.py
